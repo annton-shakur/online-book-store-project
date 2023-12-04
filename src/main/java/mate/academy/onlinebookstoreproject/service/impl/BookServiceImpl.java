@@ -1,8 +1,9 @@
-package mate.academy.onlinebookstoreproject.service;
+package mate.academy.onlinebookstoreproject.service.impl;
 
 import java.util.List;
 import mate.academy.onlinebookstoreproject.model.Book;
-import mate.academy.onlinebookstoreproject.repository.BookRepositoryImpl;
+import mate.academy.onlinebookstoreproject.repository.impl.BookRepositoryImpl;
+import mate.academy.onlinebookstoreproject.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
