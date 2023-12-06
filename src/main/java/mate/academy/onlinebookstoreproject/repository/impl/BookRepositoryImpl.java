@@ -1,12 +1,12 @@
 package mate.academy.onlinebookstoreproject.repository.impl;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
 import java.util.List;
+import java.util.Optional;
 import mate.academy.onlinebookstoreproject.model.Book;
 import mate.academy.onlinebookstoreproject.repository.BookRepository;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -14,44 +14,42 @@ import org.springframework.stereotype.Repository;
 public class BookRepositoryImpl implements BookRepository {
     private static final String CANNOT_SAVE_BOOK_TO_DB_MSG =
             "Cannot save book to database: ";
-    private static final String FAILED_TO_GET_ALL_BOOKS_FROM_DB_MSG =
-            "Failed to get all the books from DB!";
-    private SessionFactory factory;
+    private EntityManagerFactory factory;
 
     @Autowired
-    public BookRepositoryImpl(SessionFactory factory) {
+    public BookRepositoryImpl(EntityManagerFactory factory) {
         this.factory = factory;
     }
 
     @Override
     public Book save(Book book) {
-        Session session = null;
-        Transaction transaction = null;
-        try {
-            session = factory.openSession();
-            transaction = session.beginTransaction();
-            session.persist(book);
+        EntityTransaction transaction = null;
+        try (EntityManager entityManager = factory.createEntityManager()) {
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+            entityManager.persist(book);
             transaction.commit();
+            return book;
         } catch (Exception e) {
-            if (transaction != null) {
+            if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
             throw new RuntimeException(CANNOT_SAVE_BOOK_TO_DB_MSG + book, e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
-        return book;
     }
 
     @Override
     public List<Book> findAll() {
-        try (Session session = factory.openSession()) {
-            Query<Book> query = session.createQuery("from Book", Book.class);
-            return query.getResultList();
-        } catch (RuntimeException e) {
-            throw new RuntimeException(FAILED_TO_GET_ALL_BOOKS_FROM_DB_MSG);
+        try (EntityManager entityManager = factory.createEntityManager()) {
+            return entityManager.createQuery("FROM Book", Book.class).getResultList();
+        }
+    }
+
+    @Override
+    public Optional<Book> findById(Long id) {
+        try (EntityManager entityManager = factory.createEntityManager()) {
+            Book book = entityManager.find(Book.class, id);
+            return Optional.ofNullable(book);
         }
     }
 }
