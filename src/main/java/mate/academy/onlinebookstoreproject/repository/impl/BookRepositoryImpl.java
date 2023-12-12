@@ -50,6 +50,8 @@ public class BookRepositoryImpl implements BookRepository {
         try (EntityManager entityManager = factory.createEntityManager()) {
             Book book = entityManager.find(Book.class, id);
             return Optional.ofNullable(book);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to find by ID: " + id);
         }
     }
 }
