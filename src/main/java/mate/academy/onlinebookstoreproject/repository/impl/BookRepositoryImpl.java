@@ -14,6 +14,8 @@ import org.springframework.stereotype.Repository;
 public class BookRepositoryImpl implements BookRepository {
     private static final String CANNOT_SAVE_BOOK_TO_DB_MSG =
             "Cannot save book to database: ";
+    private static final String FAILED_TO_FIND_BY_ID_MSG =
+            "Failed to find by ID: ";
     private EntityManagerFactory factory;
 
     @Autowired
@@ -51,7 +53,7 @@ public class BookRepositoryImpl implements BookRepository {
             Book book = entityManager.find(Book.class, id);
             return Optional.ofNullable(book);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to find by ID: " + id);
+            throw new RuntimeException(FAILED_TO_FIND_BY_ID_MSG + id);
         }
     }
 }
