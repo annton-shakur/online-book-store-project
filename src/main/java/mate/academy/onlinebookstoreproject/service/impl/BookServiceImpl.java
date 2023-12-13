@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class BookServiceImpl implements BookService {
     private static final String CANNOT_FIND_BOOK_BY_ID_MSG = "Cannot find book by Id: ";
-    private static final String FAILED_TO_UPDATE_BY_ID_MSG = "There is book with the provided ID: ";
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
@@ -46,9 +45,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto update(Long id, CreateBookRequestDto requestDto) {
+    public BookDto updateById(Long id, CreateBookRequestDto requestDto) {
         Book book = bookRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(FAILED_TO_UPDATE_BY_ID_MSG + id));
+                () -> new EntityNotFoundException(CANNOT_FIND_BOOK_BY_ID_MSG + id));
         book.setPrice(requestDto.getPrice());
         book.setAuthor(requestDto.getAuthor());
         book.setIsbn(requestDto.getIsbn());
