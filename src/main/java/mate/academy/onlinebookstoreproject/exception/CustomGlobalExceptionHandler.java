@@ -12,6 +12,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -32,6 +34,16 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
                 .toList();
         body.put("errors", errors);
         return new ResponseEntity<>(body, headers, status);
+    }
+
+    @ExceptionHandler({EntityNotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException e) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", HttpStatus.NOT_FOUND);
+        body.put("message", e.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
     private String getErrorMessage(ObjectError e) {
