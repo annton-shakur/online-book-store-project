@@ -2,8 +2,8 @@ package mate.academy.onlinebookstoreproject.service.impl;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import mate.academy.onlinebookstoreproject.dto.BookDto;
-import mate.academy.onlinebookstoreproject.dto.CreateBookRequestDto;
+import mate.academy.onlinebookstoreproject.dto.book.BookDto;
+import mate.academy.onlinebookstoreproject.dto.book.CreateBookRequestDto;
 import mate.academy.onlinebookstoreproject.exception.EntityNotFoundException;
 import mate.academy.onlinebookstoreproject.mapper.BookMapper;
 import mate.academy.onlinebookstoreproject.model.Book;
