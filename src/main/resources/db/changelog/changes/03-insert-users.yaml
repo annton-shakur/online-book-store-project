@@ -1,0 +1,59 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-users
+      author: anton4uk
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: user1@example.com
+              - column:
+                  name: password
+                  value: $2a$10$coPbc9lmHZ1R1Ryti1BRIeI3YaagihnDo5.g.ANbne9oL0B4mJkUa
+              - column:
+                  name: first_name
+                  value: John
+              - column:
+                  name: last_name
+                  value: Doe
+              - column:
+                  name: shipping_address
+                  value: 123 Main St, City1, Country1
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: user2@example.com
+              - column:
+                  name: password
+                  value: $2a$10$coPbc9lmHZ1R1Ryti1BRIeI3YaagihnDo5.g.ANbne9oL0B4mJkUa
+              - column:
+                  name: first_name
+                  value: Jane
+              - column:
+                  name: last_name
+                  value: Doe
+              - column:
+                  name: shipping_address
+                  value: 456 Main St, City2, Country2
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: user3@example.com
+              - column:
+                  name: password
+                  value: $2a$10$coPbc9lmHZ1R1Ryti1BRIeI3YaagihnDo5.g.ANbne9oL0B4mJkUa
+              - column:
+                  name: first_name
+                  value: Alex
+              - column:
+                  name: last_name
+                  value: Smith
+              - column:
+                  name: shipping_address
+                  value: 789 Main St, City3, Country3
