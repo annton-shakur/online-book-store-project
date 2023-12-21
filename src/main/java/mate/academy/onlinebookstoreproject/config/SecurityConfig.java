@@ -38,6 +38,5 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .userDetailsService(userDetailsService)
                 .build();
-
     }
 }

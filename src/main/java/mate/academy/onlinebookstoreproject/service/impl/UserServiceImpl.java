@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto save(UserRegistrationRequestDto requestDto) {
-        if (userRepository.findUserByEmail(requestDto.getEmail()).isPresent()) {
+        if (userRepository.findByEmail(requestDto.getEmail()).isPresent()) {
             throw new RegistrationException(EMAIL_EXIST_MSG);
         }
         User user = userMapper.toModel(requestDto);
