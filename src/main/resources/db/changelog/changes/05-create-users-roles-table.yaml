@@ -13,6 +13,8 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: role_foreignKey
                     references: roles(id)
+                    deleteCascade: true
+                    primaryKey: true
               - column:
                   name: user_id
                   type: bigint
@@ -20,3 +22,5 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: user_foreignKey
                     references: users(id)
+                    deleteCascade: true
+                    primaryKey: true

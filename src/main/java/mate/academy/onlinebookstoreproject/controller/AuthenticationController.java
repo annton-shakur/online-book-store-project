@@ -23,7 +23,7 @@ public class AuthenticationController {
 
     @PostMapping("/registration")
     @Operation(summary = "Register a new user",
-            description = "Add a new user with USER role to database")
+            description = "Add a new user with USER roleName to database")
     public UserResponseDto register(@RequestBody @Valid UserRegistrationRequestDto request)
             throws RegistrationException {
         return userService.save(request);

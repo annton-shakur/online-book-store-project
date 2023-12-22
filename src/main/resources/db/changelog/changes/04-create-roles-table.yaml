@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: create-role-table
+      id: create-roleName-table
       author: anton4uk
       changes:
         - createTable:
@@ -14,7 +14,7 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: role
+                  name: role_name
                   type: varchar(255)
                   constraints:
                     nullable: false

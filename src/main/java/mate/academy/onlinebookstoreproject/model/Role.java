@@ -21,11 +21,11 @@ public class Role implements GrantedAuthority {
 
     @Column(nullable = false, unique = true)
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    private RoleName role;
+    private RoleName roleName;
 
     @Override
     public String getAuthority() {
-        return "ROLE_" + role.name();
+        return "ROLE_" + roleName.name();
     }
 
     public enum RoleName {
