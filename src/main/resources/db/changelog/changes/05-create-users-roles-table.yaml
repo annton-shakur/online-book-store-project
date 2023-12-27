@@ -11,16 +11,16 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: role_foreignKey
                     references: roles(id)
                     deleteCascade: true
                     primaryKey: true
+                    foreignKeyName: fk_users_roles_role_id
               - column:
                   name: user_id
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: user_foreignKey
                     references: users(id)
                     deleteCascade: true
                     primaryKey: true
+                    foreignKeyName: fk_users_roles_user_id

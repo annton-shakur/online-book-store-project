@@ -8,7 +8,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: email
-                  value: user1@example.com
+                  value: john@example.com
               - column:
                   name: password
                   value: $2a$10$coPbc9lmHZ1R1Ryti1BRIeI3YaagihnDo5.g.ANbne9oL0B4mJkUa
@@ -26,7 +26,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: email
-                  value: user2@example.com
+                  value: jane@example.com
               - column:
                   name: password
                   value: $2a$10$coPbc9lmHZ1R1Ryti1BRIeI3YaagihnDo5.g.ANbne9oL0B4mJkUa
@@ -44,7 +44,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: email
-                  value: user3@example.com
+                  value: alex@example.com
               - column:
                   name: password
                   value: $2a$10$coPbc9lmHZ1R1Ryti1BRIeI3YaagihnDo5.g.ANbne9oL0B4mJkUa
