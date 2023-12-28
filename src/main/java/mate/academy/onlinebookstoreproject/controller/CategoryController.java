@@ -1,5 +1,7 @@
 package mate.academy.onlinebookstoreproject.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Categories management", description = "Endpoints for managing categories")
 @RestController
 @RequestMapping("/api/categories")
 @RequiredArgsConstructor
@@ -27,24 +30,32 @@ public class CategoryController {
     private final BookService bookService;
 
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @Operation(summary = "Get all categories",
+            description = "Get a pageable list of all the categories")
     @GetMapping
     public List<CategoryDto> getAll(Pageable pageable) {
         return categoryService.getAll(pageable);
     }
 
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @Operation(summary = "Get category by ID",
+            description = "Get category by ID from DB")
     @GetMapping("/{id}")
     public CategoryDto findById(@PathVariable Long id) {
         return categoryService.findById(id);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Add a new category",
+            description = "Add a new category to DB")
     @PostMapping
     public CategoryDto save(@RequestBody @Valid CreateCategoryRequestDto requestDto) {
         return categoryService.save(requestDto);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Update category by ID",
+            description = "Update category details by ID")
     @PutMapping("/{id}")
     public CategoryDto update(@PathVariable Long id,
                               @RequestBody @Valid CreateCategoryRequestDto requestDto) {
@@ -52,12 +63,16 @@ public class CategoryController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Delete category by ID",
+            description = "Remove category from the DB by ID")
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
         categoryService.deleteById(id);
     }
 
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @Operation(summary = "Get books from certain category",
+            description = "Get all the books of a certain category using its ID")
     @GetMapping("/{id}/books")
     public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(
             @PathVariable(name = "id") Long categoryId
