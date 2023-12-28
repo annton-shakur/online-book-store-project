@@ -1,9 +1,10 @@
 package mate.academy.onlinebookstoreproject.dto.book;
 
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
+import java.util.Set;
 import lombok.Data;
 import org.hibernate.validator.constraints.ISBN;
 
@@ -17,11 +18,11 @@ public class CreateBookRequestDto {
     @NotBlank (message = CANNOT_BE_NULL_MSG)
     @ISBN
     private String isbn;
-    @NotBlank (message = CANNOT_BE_NULL_MSG)
-    @Min(0)
+    @DecimalMin(value = "0", inclusive = false)
     private BigDecimal price;
     @NotEmpty
     private String description;
     @NotEmpty
     private String coverImage;
+    private Set<Long> categoryIds;
 }

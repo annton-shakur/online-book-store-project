@@ -2,6 +2,7 @@ package mate.academy.onlinebookstoreproject.service;
 
 import java.util.List;
 import mate.academy.onlinebookstoreproject.dto.book.BookDto;
+import mate.academy.onlinebookstoreproject.dto.book.BookDtoWithoutCategoryIds;
 import mate.academy.onlinebookstoreproject.dto.book.CreateBookRequestDto;
 import org.springframework.data.domain.Pageable;
 
@@ -15,4 +16,6 @@ public interface BookService {
     void deleteById(Long id);
 
     BookDto updateById(Long id, CreateBookRequestDto requestDto);
+
+    List<BookDtoWithoutCategoryIds> getBooksByCategoryId(Long categoryId);
 }

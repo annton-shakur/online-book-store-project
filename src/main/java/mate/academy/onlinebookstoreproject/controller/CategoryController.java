@@ -3,10 +3,13 @@ package mate.academy.onlinebookstoreproject.controller;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import mate.academy.onlinebookstoreproject.dto.book.BookDtoWithoutCategoryIds;
 import mate.academy.onlinebookstoreproject.dto.category.CategoryDto;
 import mate.academy.onlinebookstoreproject.dto.category.CreateCategoryRequestDto;
+import mate.academy.onlinebookstoreproject.service.BookService;
 import mate.academy.onlinebookstoreproject.service.CategoryService;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,30 +24,44 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CategoryController {
     private final CategoryService categoryService;
+    private final BookService bookService;
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping
     public List<CategoryDto> getAll(Pageable pageable) {
         return categoryService.getAll(pageable);
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/{id}")
     public CategoryDto findById(@PathVariable Long id) {
         return categoryService.findById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public CategoryDto save(@RequestBody @Valid CreateCategoryRequestDto requestDto) {
         return categoryService.save(requestDto);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public CategoryDto update(@PathVariable Long id,
                               @RequestBody @Valid CreateCategoryRequestDto requestDto) {
         return categoryService.updateById(id, requestDto);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
         categoryService.deleteById(id);
+    }
+
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @GetMapping("/{id}/books")
+    public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(
+            @PathVariable(name = "id") Long categoryId
+    ) {
+        return bookService.getBooksByCategoryId(categoryId);
     }
 }
