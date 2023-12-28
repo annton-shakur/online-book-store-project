@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class BookServiceImpl implements BookService {
     private static final String CANNOT_FIND_BOOK_BY_ID_MSG = "Cannot find book by Id: ";
+    private static final String CANNOT_FIND_CATEGORY_BY_ID_MSG = "Cannot find category by id: ";
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
     private final CategoryRepository categoryRepository;
@@ -80,7 +81,7 @@ public class BookServiceImpl implements BookService {
                     categoryRepository.findById(categoryId)
                             .orElseThrow(
                                     () -> new EntityNotFoundException(
-                                            "Cannot find category by id: " + categoryId)));
+                                            CANNOT_FIND_CATEGORY_BY_ID_MSG + categoryId)));
         }
         book.setCategories(categorySet);
     }
