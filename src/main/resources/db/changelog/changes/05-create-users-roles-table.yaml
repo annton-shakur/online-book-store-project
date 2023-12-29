@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: create-users-roles-table
-      author: anton4uk
+      author: anton dudar
       changes:
         - createTable:
             tableName: users_roles
@@ -10,7 +10,6 @@ databaseChangeLog:
                   name: role_id
                   type: bigint
                   constraints:
-                    nullable: false
                     references: roles(id)
                     deleteCascade: true
                     primaryKey: true
@@ -19,7 +18,6 @@ databaseChangeLog:
                   name: user_id
                   type: bigint
                   constraints:
-                    nullable: false
                     references: users(id)
                     deleteCascade: true
                     primaryKey: true

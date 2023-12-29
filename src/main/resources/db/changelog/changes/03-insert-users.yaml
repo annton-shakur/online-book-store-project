@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: insert-users
-      author: anton4uk
+      author: anton dudar
       changes:
         - insert:
             tableName: users
@@ -11,7 +11,7 @@ databaseChangeLog:
                   value: john@example.com
               - column:
                   name: password
-                  value: $2a$10$coPbc9lmHZ1R1Ryti1BRIeI3YaagihnDo5.g.ANbne9oL0B4mJkUa
+                  value: $2a$10$kmYQ3CgmYPzWNsK9q8oLF.VCoXCDeXqY2suHL2Z6GdnN18CtLkjTO
               - column:
                   name: first_name
                   value: John
@@ -29,7 +29,7 @@ databaseChangeLog:
                   value: jane@example.com
               - column:
                   name: password
-                  value: $2a$10$coPbc9lmHZ1R1Ryti1BRIeI3YaagihnDo5.g.ANbne9oL0B4mJkUa
+                  value: $2a$10$kmYQ3CgmYPzWNsK9q8oLF.VCoXCDeXqY2suHL2Z6GdnN18CtLkjTO
               - column:
                   name: first_name
                   value: Jane
@@ -47,7 +47,7 @@ databaseChangeLog:
                   value: alex@example.com
               - column:
                   name: password
-                  value: $2a$10$coPbc9lmHZ1R1Ryti1BRIeI3YaagihnDo5.g.ANbne9oL0B4mJkUa
+                  value: $2a$10$kmYQ3CgmYPzWNsK9q8oLF.VCoXCDeXqY2suHL2Z6GdnN18CtLkjTO
               - column:
                   name: first_name
                   value: Alex

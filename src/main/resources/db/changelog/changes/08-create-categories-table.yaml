@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: create-categories-table
-      author: anton4uk
+      author: anton dudar
       changes:
         - createTable:
             tableName: categories
@@ -12,7 +12,6 @@ databaseChangeLog:
                   autoIncrement: true
                   constraints:
                     primaryKey: true
-                    nullable: false
               - column:
                   name: name
                   type: varchar(255)

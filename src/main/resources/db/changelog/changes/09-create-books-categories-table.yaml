@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: create-books-categories-table
-      author: anton4uk
+      author: anton dudar
       changes:
         - createTable:
             tableName: books_categories
@@ -10,7 +10,6 @@ databaseChangeLog:
                   name: book_id
                   type: bigint
                   constraints:
-                    nullable: false
                     references: books(id)
                     deleteCascade: true
                     primaryKey: true
@@ -19,7 +18,6 @@ databaseChangeLog:
                   name: category_id
                   type: bigint
                   constraints:
-                    nullable: false
                     references: categories(id)
                     deleteCascade: true
                     primaryKey: true
