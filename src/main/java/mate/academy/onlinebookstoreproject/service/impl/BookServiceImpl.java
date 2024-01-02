@@ -3,6 +3,7 @@ package mate.academy.onlinebookstoreproject.service.impl;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.onlinebookstoreproject.dto.book.BookDto;
+import mate.academy.onlinebookstoreproject.dto.book.BookDtoWithoutCategoryIds;
 import mate.academy.onlinebookstoreproject.dto.book.CreateBookRequestDto;
 import mate.academy.onlinebookstoreproject.exception.EntityNotFoundException;
 import mate.academy.onlinebookstoreproject.mapper.BookMapper;
@@ -47,14 +48,19 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto updateById(Long id, CreateBookRequestDto requestDto) {
-        Book book = bookRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(CANNOT_FIND_BOOK_BY_ID_MSG + id));
-        book.setPrice(requestDto.getPrice());
-        book.setAuthor(requestDto.getAuthor());
-        book.setIsbn(requestDto.getIsbn());
-        book.setDescription(requestDto.getDescription());
-        book.setTitle(requestDto.getTitle());
-        book.setCoverImage(requestDto.getCoverImage());
-        return bookMapper.toDto(bookRepository.save(book));
+        if (!bookRepository.existsById(id)) {
+            throw new EntityNotFoundException(CANNOT_FIND_BOOK_BY_ID_MSG + id);
+        }
+        Book book = bookMapper.toModel(requestDto);
+        book.setId(id);
+        Book updatedBook = bookRepository.save(book);
+        return bookMapper.toDto(updatedBook);
+    }
+
+    @Override
+    public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(Long categoryId) {
+        return bookRepository.findAllByCategoryId(categoryId).stream()
+                .map(bookMapper::toBookDtoWithoutCategoryIds)
+                .toList();
     }
 }
