@@ -12,12 +12,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Data
 @SQLDelete(sql = "UPDATE cart_items SET is_deleted = true WHERE id=?")
-@SQLRestriction("is_deleted=false")
+@Where(clause = "is_deleted=false")
 @Table(name = "cart_items")
 public class CartItem {
     @Id
