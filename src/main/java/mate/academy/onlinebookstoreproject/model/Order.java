@@ -2,6 +2,7 @@ package mate.academy.onlinebookstoreproject.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,7 +33,7 @@ public class Order {
     private Long id;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
     @JdbcTypeCode(SqlTypes.VARCHAR)
@@ -40,6 +41,7 @@ public class Order {
     @Column(nullable = false)
     private BigDecimal total;
     @CreationTimestamp
+    @Column(name = "order_date", nullable = false)
     private LocalDateTime orderDate;
     @Column(nullable = false)
     private String shippingAddress;

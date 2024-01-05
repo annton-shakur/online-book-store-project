@@ -18,14 +18,14 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     references: orders(id)
-                    foreignKeyName: fk_order_items_orders_id
+                    foreignKeyName: fk_order_items_order_id
               - column:
                   name: book_id
                   type: bigint
                   constraints:
                     primaryKey: true
                     references: books(id)
-                    foreignKeyName: fk_order_items_books_id
+                    foreignKeyName: fk_order_items_book_id
               - column:
                   name: quantity
                   type: integer
