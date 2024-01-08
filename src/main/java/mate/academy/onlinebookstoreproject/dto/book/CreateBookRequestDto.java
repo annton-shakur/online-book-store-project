@@ -6,9 +6,11 @@ import jakarta.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.util.Set;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.ISBN;
 
 @Data
+@Accessors(chain = true)
 public class CreateBookRequestDto {
     private static final String CANNOT_BE_NULL_MSG = "cannot be null or blank";
     @NotBlank(message = CANNOT_BE_NULL_MSG)
