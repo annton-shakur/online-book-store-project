@@ -34,6 +34,16 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
 
+@Sql(scripts = {
+        "classpath:database/categories/insert-categories-into-categories-table.sql",
+        "classpath:database/books/insert-books-into-books-table.sql",
+        "classpath:database/categories/insert-into-books-categories-table.sql"
+}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = {
+        "classpath:database/categories/delete-from-books-categories-table.sql",
+        "classpath:database/categories/delete-categories-from-categories-table.sql",
+        "classpath:database/books/delete-books-from-books-table.sql"
+}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class BookControllerTest {
     protected static MockMvc mockMvc;
@@ -42,6 +52,8 @@ class BookControllerTest {
     private static BookDto vanityFairBookDto;
     private static CreateBookRequestDto updateBookRequestDto;
     private static BookDto updateBookResponseDto;
+    private static BookDto flowersForAlgernonDto;
+    private static CreateBookRequestDto flowersForAlgernonCreateDto;
     private static Category categoryOne;
     private static Category categoryTwo;
     @Autowired
@@ -114,20 +126,28 @@ class BookControllerTest {
         updateBookResponseDto.setCategoryIds(Set.of(1L));
         updateBookResponseDto.setIsbn("978-0-13-235088-4");
 
+        flowersForAlgernonCreateDto = new CreateBookRequestDto();
+        flowersForAlgernonCreateDto.setTitle("Flowers for Algernon");
+        flowersForAlgernonCreateDto.setAuthor("Daniel Keyes");
+        flowersForAlgernonCreateDto.setPrice(new BigDecimal("15.99"));
+        flowersForAlgernonCreateDto.setDescription("A science fiction novel");
+        flowersForAlgernonCreateDto.setCoverImage("flowers-for-algernon.jpg");
+        flowersForAlgernonCreateDto.setCategoryIds(Set.of(1L));
+        flowersForAlgernonCreateDto.setIsbn("978-3-1136-5552-7");
+
+        flowersForAlgernonDto = new BookDto();
+        flowersForAlgernonDto.setId(1L);
+        flowersForAlgernonDto.setTitle("Flowers for Algernon");
+        flowersForAlgernonDto.setAuthor("Daniel Keyes");
+        flowersForAlgernonDto.setPrice(new BigDecimal("15.99"));
+        flowersForAlgernonDto.setDescription("A science fiction novel");
+        flowersForAlgernonDto.setCoverImage("flowers-for-algernon.jpg");
+        flowersForAlgernonDto.setCategoryIds(Set.of(1L));
+        flowersForAlgernonDto.setIsbn("978-3-1136-5552-7");
     }
 
-    @WithMockUser(username = "user", roles = {"USER"})
+    @WithMockUser(username = "user")
     @Test
-    @Sql(scripts = {
-            "classpath:database/categories/insert-categories-into-categories-table.sql",
-            "classpath:database/books/insert-books-into-books-table.sql",
-            "classpath:database/categories/insert-into-books-categories-table.sql"
-    }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {
-            "classpath:database/categories/delete-from-books-categories-table.sql",
-            "classpath:database/categories/delete-categories-from-categories-table.sql",
-            "classpath:database/books/delete-books-from-books-table.sql"
-    }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Get a list of 2 books mapped to dto from the DB ")
     void getAll_Return_TwoBookDto() throws Exception {
         MvcResult result = mockMvc.perform(get("/api/books")
@@ -142,18 +162,8 @@ class BookControllerTest {
         Assertions.assertIterableEquals(expected, Arrays.asList(actual));
     }
 
-    @WithMockUser(username = "user", roles = {"USER"})
+    @WithMockUser(username = "user")
     @Test
-    @Sql(scripts = {
-            "classpath:database/categories/insert-categories-into-categories-table.sql",
-            "classpath:database/books/insert-books-into-books-table.sql",
-            "classpath:database/categories/insert-into-books-categories-table.sql"
-    }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {
-            "classpath:database/categories/delete-from-books-categories-table.sql",
-            "classpath:database/categories/delete-categories-from-categories-table.sql",
-            "classpath:database/books/delete-books-from-books-table.sql"
-    }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findById() throws Exception {
         MvcResult result = mockMvc.perform(get("/api/books/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -168,17 +178,9 @@ class BookControllerTest {
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     @Test
-    @Sql(scripts
-            = "classpath:database/categories/insert-categories-into-categories-table.sql",
-            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {
-            "classpath:database/categories/delete-from-books-categories-table.sql",
-            "classpath:database/categories/delete-categories-from-categories-table.sql",
-            "classpath:database/books/delete-books-from-books-table.sql"
-    }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Add a new book")
     void save_ValidBook_ReturnBookDto() throws Exception {
-        String jsonRequest = objectMapper.writeValueAsString(theGreatGatsbyBookRequestDto);
+        String jsonRequest = objectMapper.writeValueAsString(flowersForAlgernonCreateDto);
         MvcResult result = mockMvc.perform(
                 post("/api/books")
                         .content(jsonRequest)
@@ -186,7 +188,7 @@ class BookControllerTest {
         )
                 .andExpect(status().isCreated())
                 .andReturn();
-        BookDto expected = theGreatGatsbyBookDto;
+        BookDto expected = flowersForAlgernonDto;
         BookDto actual = objectMapper.readValue(
                 result.getResponse().getContentAsString(), BookDto.class);
 
@@ -195,16 +197,6 @@ class BookControllerTest {
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     @Test
-    @Sql(scripts = {
-            "classpath:database/categories/insert-categories-into-categories-table.sql",
-            "classpath:database/books/insert-books-into-books-table.sql",
-            "classpath:database/categories/insert-into-books-categories-table.sql"
-    }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {
-            "classpath:database/categories/delete-from-books-categories-table.sql",
-            "classpath:database/categories/delete-categories-from-categories-table.sql",
-            "classpath:database/books/delete-books-from-books-table.sql"
-    }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void delete_WithValidBookId_ResponseStatusOk() throws Exception {
         MvcResult result = mockMvc.perform(
                         delete("/api/books/1")
@@ -219,16 +211,6 @@ class BookControllerTest {
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     @Test
-    @Sql(scripts = {
-            "classpath:database/categories/insert-categories-into-categories-table.sql",
-            "classpath:database/books/insert-books-into-books-table.sql",
-            "classpath:database/categories/insert-into-books-categories-table.sql"
-    }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {
-            "classpath:database/categories/delete-from-books-categories-table.sql",
-            "classpath:database/categories/delete-categories-from-categories-table.sql",
-            "classpath:database/books/delete-books-from-books-table.sql"
-    }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void update_WithValidBook_ReturnUpdateBook() throws Exception {
         String jsonRequest = objectMapper.writeValueAsString(updateBookRequestDto);
         MvcResult mvcResult = mockMvc.perform(

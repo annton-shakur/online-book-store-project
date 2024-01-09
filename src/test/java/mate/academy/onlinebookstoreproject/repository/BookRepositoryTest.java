@@ -4,8 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import mate.academy.onlinebookstoreproject.model.Book;
 import mate.academy.onlinebookstoreproject.model.Category;
 import org.junit.jupiter.api.Assertions;
@@ -17,6 +19,16 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 
+@Sql(scripts = {
+        "classpath:database/categories/insert-categories-into-categories-table.sql",
+        "classpath:database/books/insert-books-into-books-table.sql",
+        "classpath:database/categories/insert-into-books-categories-table.sql"
+}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = {
+        "classpath:database/categories/delete-from-books-categories-table.sql",
+        "classpath:database/categories/delete-categories-from-categories-table.sql",
+        "classpath:database/books/delete-books-from-books-table.sql"
+}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class BookRepositoryTest {
@@ -68,16 +80,6 @@ class BookRepositoryTest {
 
     @Test
     @DisplayName("Return a list of valid books by category id")
-    @Sql(scripts = {
-            "classpath:database/categories/insert-categories-into-categories-table.sql",
-            "classpath:database/books/insert-books-into-books-table.sql",
-            "classpath:database/categories/insert-into-books-categories-table.sql"
-    }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {
-            "classpath:database/categories/delete-from-books-categories-table.sql",
-            "classpath:database/categories/delete-categories-from-categories-table.sql",
-            "classpath:database/books/delete-books-from-books-table.sql"
-    }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findAllByCategoryId_WithValidCategoryId_ReturnBook() {
         List<Book> actual = bookRepository.findAllByCategoryId(VALID_ID);
         assertEquals(List.of(theGreatGatsbyBook), actual);
@@ -85,36 +87,24 @@ class BookRepositoryTest {
 
     @Test
     @DisplayName("Return a valid book by id")
-    @Sql(scripts = {
-            "classpath:database/categories/insert-categories-into-categories-table.sql",
-            "classpath:database/books/insert-books-into-books-table.sql",
-            "classpath:database/categories/insert-into-books-categories-table.sql"
-    }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {
-            "classpath:database/categories/delete-from-books-categories-table.sql",
-            "classpath:database/categories/delete-categories-from-categories-table.sql",
-            "classpath:database/books/delete-books-from-books-table.sql"
-    }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findById_WithValidId_ReturnBookById() {
         Book actual = bookRepository.findById(VALID_ID).get();
         assertEquals(theGreatGatsbyBook, actual);
+        assertEquals(theGreatGatsbyBook.getCategories(), actual.getCategories());
     }
 
     @Test
     @DisplayName("Return a valid list of all the books from db")
-    @Sql(scripts = {
-            "classpath:database/categories/insert-categories-into-categories-table.sql",
-            "classpath:database/books/insert-books-into-books-table.sql",
-            "classpath:database/categories/insert-into-books-categories-table.sql"
-    }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {
-            "classpath:database/categories/delete-from-books-categories-table.sql",
-            "classpath:database/categories/delete-categories-from-categories-table.sql",
-            "classpath:database/books/delete-books-from-books-table.sql"
-    }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findAll_ReturnValidListOfBooks() {
         List<Book> actual = bookRepository.findAll();
         Assertions.assertEquals(2, actual.size());
         Assertions.assertIterableEquals(bookList, actual);
+        Set<Category> categoriesExpected = new HashSet<>();
+        categoriesExpected.add(categoryOne);
+        categoriesExpected.add(categoryTwo);
+        Set<Category> categoriesActual = actual.stream()
+                .flatMap(b -> b.getCategories().stream())
+                .collect(Collectors.toSet());
+        assertEquals(categoriesExpected, categoriesActual);
     }
 }
