@@ -149,7 +149,7 @@ class BookControllerTest {
     @WithMockUser(username = "user")
     @Test
     @DisplayName("Get a list of 2 books mapped to dto from the DB ")
-    void getAll_Return_TwoBookDto() throws Exception {
+    void getAll_ShouldReturnListOfBooks() throws Exception {
         MvcResult result = mockMvc.perform(get("/api/books")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -164,7 +164,8 @@ class BookControllerTest {
 
     @WithMockUser(username = "user")
     @Test
-    void findById() throws Exception {
+    @DisplayName("Return bookdto by id")
+    void findById_ValidId_ReturnBookDto() throws Exception {
         MvcResult result = mockMvc.perform(get("/api/books/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
