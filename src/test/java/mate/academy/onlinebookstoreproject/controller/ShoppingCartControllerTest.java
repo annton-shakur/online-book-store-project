@@ -17,6 +17,7 @@ import mate.academy.onlinebookstoreproject.model.ShoppingCart;
 import mate.academy.onlinebookstoreproject.model.User;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -129,7 +130,8 @@ class ShoppingCartControllerTest {
 
     @WithMockUser(username = "user")
     @Test
-    void getCart() throws Exception {
+    @DisplayName("Return shopping cart for a valid user")
+    void getCart_WithValidUser_ReturnShoppingCartDto() throws Exception {
         MvcResult result = mockMvc.perform(get("/api/cart")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

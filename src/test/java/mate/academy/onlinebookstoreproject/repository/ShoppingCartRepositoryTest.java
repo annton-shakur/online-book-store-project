@@ -12,6 +12,7 @@ import mate.academy.onlinebookstoreproject.model.Role;
 import mate.academy.onlinebookstoreproject.model.ShoppingCart;
 import mate.academy.onlinebookstoreproject.model.User;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -89,7 +90,8 @@ class ShoppingCartRepositoryTest {
     }
 
     @Test
-    void findByUserId() {
+    @DisplayName("Return cart by a valid user id")
+    void findByUserId_WithValidId_ReturnShoppingCart() {
         ShoppingCart expected = shoppingCart;
         ShoppingCart actual = shoppingCartRepository.findByUserId(VALID_ID).get();
         assertEquals(expected, actual);
