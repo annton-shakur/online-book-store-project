@@ -4,19 +4,24 @@ The application was designed to automize the processes of the online book store,
 * populating shopping carts (with cart items) and completing orders based on their contents
 * managing the user's orders (from admins prospective)
 ## Technologies used
+Core Technologies:
 * Java
-* Maven
+* Maven (Build tool)
+### Spring Framework:
 * Spring Boot
 * Spring Data JPA
 * Spring Boot Security
 * Lombok
 * Mapstruct
+### Database and Persistence:
 * Hibernate
-* Mockito
-* JUnit 5
-* Mysql
+* MySQL
 * Liquibase
+### Testing:
+* JUnit 5
+* Mockito
 * Docker
+### API Documentation:
 * Swagger
 ## Examples of endpoints
 ### Authentication controller
@@ -106,3 +111,17 @@ The application was designed to automize the processes of the online book store,
 * **controller**: Controllers containing endpoints with methods for handling HTTP requests
 * **dto**: Data Transfer Objects used for communication between the client and server
 * **mapper**: Mapper interfaces used for conversions between DTOs and entity models
+## How to test the project from your side? 
+* Make sure to have JDK 17+, Docker and Postman installed
+* Clone this repository
+* Create the .env file with the corresponding variables
+* Build images using _docker-compose build_ and run the service in containers using _docker-compose up_
+* You are welcome to try out this application options using the next Postman collection: there will be a collection here tomorrow (I hope). Just let me know if the other steps are valid
+## What was difficult about creating the project?
+First of all, it was quite a challenge to understand the whole architecture of the application, however, after many tries and a decent amount of time spent on research and communication with some experienced specialists I managed to find the suitable structure. 
+Besides this, Spring Security was a pretty challenging topic to lear and use in such an application. Despite that, after a while I manage to configure it as well.
+I cannot avoid talking about Docker setup here as well. It took a lot of my patience and efforts to configure it.
+Anyway, I must admit that despite pretty difficult challenges, I really enjoyed creating this project and cannot wait to get some more practice.
+## What is next?
+It may look like this project is already finished, but I don't intend to leave it this way. Every shop needs to give customers the opportunity to return their goods and this one won't be an exception. So, the next step is adding the return feature. 
+Also, I guess adding some front-end and good design would make it much more user-friendly. You are welcome to follow me for updates on this project :)
