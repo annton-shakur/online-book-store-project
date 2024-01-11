@@ -1,5 +1,7 @@
 package mate.academy.onlinebookstoreproject.service.impl;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Set;
@@ -12,7 +14,6 @@ import mate.academy.onlinebookstoreproject.model.Category;
 import mate.academy.onlinebookstoreproject.model.ShoppingCart;
 import mate.academy.onlinebookstoreproject.model.User;
 import mate.academy.onlinebookstoreproject.repository.ShoppingCartRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,13 +25,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class ShoppingCartServiceImplTest {
-
-    @Mock
-    private static ShoppingCartMapper shoppingCartMapper;
-    @Mock
-    private static ShoppingCartRepository shoppingCartRepository;
-    @InjectMocks
-    private static ShoppingCartServiceImpl shoppingCartService;
     private static Book theGreatGatsbyBook;
     private static Category categoryOne;
     private static ShoppingCart shoppingCart;
@@ -38,6 +32,12 @@ class ShoppingCartServiceImplTest {
     private static CartItem cartItem;
     private static CartItemResponseDto cartItemResponseDto;
     private static User user;
+    @Mock
+    private static ShoppingCartMapper shoppingCartMapper;
+    @Mock
+    private static ShoppingCartRepository shoppingCartRepository;
+    @InjectMocks
+    private static ShoppingCartServiceImpl shoppingCartService;
 
     @BeforeAll
     static void beforeAll() {
@@ -93,6 +93,6 @@ class ShoppingCartServiceImplTest {
         ShoppingCartResponseDto expected = shoppingCartResponseDto;
         ShoppingCartResponseDto actual = shoppingCartService.getCartByUsedId(1L);
 
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 }
