@@ -37,7 +37,7 @@ class BookRepositoryTest {
     private static Book theGreatGatsbyBook;
     private static Book vanityFairBook;
     private static List<Book> bookList;
-    private static final long VALID_ID = 1L;
+    private static final Long VALID_ID = 1L;
     @Autowired
     private BookRepository bookRepository;
 
