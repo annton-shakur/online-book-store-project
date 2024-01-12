@@ -116,7 +116,7 @@ Core Technologies:
 * Clone this repository
 * Create the .env file with the corresponding variables
 * Build images using _docker-compose build_ and run the service in containers using _docker-compose up_
-* You are welcome to try out this application options using the next Postman collection: there will be a collection here tomorrow (I hope). Just let me know if the other steps are valid
+* You are welcome to try out this application options using the next Postman collection: [Collection](https://www.postman.com/maintenance-saganist-25752092/workspace/book-store-requests/collection/31588986-9cf6d538-f26e-4edd-ba94-f69efbdabc61?action=share&creator=31588986)
 ## What was difficult about creating the project?
 First of all, it was quite a challenge to understand the whole architecture of the application, however, after many tries and a decent amount of time spent on research and communication with some experienced specialists I managed to find the suitable structure. 
 Besides this, Spring Security was a pretty challenging topic to learn and use in such an application. Despite that, after a while I manage to configure it as well.
